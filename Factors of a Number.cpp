@@ -3,11 +3,11 @@ using namespace std;
 
 int main()
 {
-	cout << "Enter a number: ";
+	cout << "Enter a number: "; // have user input a number
 	int number;
 	cin >> number;
 
-	cout << "The factors of " << number << " are ";
+	cout << "The factors of " << number << " are "; // display text
 
 
 	for (int i = 1; i <= number; i++) // from 1 to entered number
