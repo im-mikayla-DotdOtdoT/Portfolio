@@ -3,14 +3,15 @@
 
 using namespace std;
 
-constexpr int g_kPlayMenu = 1;
+constexpr int g_kPlayMenu = 1; // g_ marks a global variable; k marks constant variable
 constexpr int g_KQuitMenu = 2;
 
 constexpr int g_kMaleGender = 1;
 constexpr int g_kFemaleGender = 2;
 constexpr int g_kOtherGender = 3;
 
-int DisplayWelcomeMessage ();
+// function declarations
+int DisplayWelcomeMessage();
 void DisplayMessage(string message);
 void PlayGame();
 string GetUserName();
@@ -23,31 +24,32 @@ void DisplayGameOver(int randomNumber, string nickname);
 
 int main()
 {
-	srand((unsigned)time(0));
+	srand((unsigned)time(0)); // random time to make sure random number is generated each time game is played
 
-	int input = DisplayWelcomeMessage();
+	int input = DisplayWelcomeMessage(); // display welcome message prompting user to input 1 or 2
 
-	switch (input)
+	switch (input) // switch statement
 	{
 		case g_kPlayMenu:
 		{
-			PlayGame();
-			break;
+			PlayGame(); // play game by pressing 1
+			break; // needed break statement
 		}
 		case g_KQuitMenu:
 		{
-			DisplayMessage("Goodbye!");
+			DisplayMessage("Goodbye!"); // quit game pressing 2
 			break;
 		}
 		default:
 		{
-			DisplayMessage("Invalid Input. Goodbye!");
+			DisplayMessage("Invalid Input. Goodbye!"); // input was neither
 			break;
 		}
 	}
 }
 
-int DisplayWelcomeMessage()
+// function definitions
+int DisplayWelcomeMessage() // welcome message with input prompt
 {
 	cout << "------- Welcome to 1 . 2 . 20 Number Guessing Game! -------" << endl;
 	cout << "You have 2 guesses to find the correct number between 1 to 20." << endl;
@@ -79,7 +81,7 @@ void PlayGame()
 
 		string nickname = GenerateNickname(gender, age);
 
-		int randomNumber = 1 + rand() % 20;
+		int randomNumber = 1 + rand() % 20; // random number between 1-20
 		cout << randomNumber << endl;
 		int guess = GetGuess(1, nickname);
 		bool didGuessCorrect = ReviewGuess(guess, randomNumber);
