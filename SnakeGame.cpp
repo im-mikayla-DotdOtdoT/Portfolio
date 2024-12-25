@@ -1,6 +1,6 @@
 #include <iostream>
 #include <conio.h> // provide console input and output
-#include <time.h>
+#include <time.h> // for srand time function
 #include <Windows.h>
 using namespace std;
 
