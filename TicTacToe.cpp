@@ -72,7 +72,7 @@ void playerMove(char* spaces, char player)
 	int number;
 	do
 	{
-		std::cout << "Enter a spot to place your marker (1-9): "; // user is unaware that arrays start with zero, so subtract the inputted number by 1
+		std::cout << "You are X. Enter a spot to place your marker (1-9): "; // user is unaware that arrays start with zero, so subtract the inputted number by 1
 		std::cin >> number;
 		number--; // decrement number since arrays start with zero
 		if (spaces[number] == ' ') // if number is equal to empty space...
