@@ -1,5 +1,5 @@
 #include <iostream>
-#include <time.h>
+#include <time.h> // random generator
 
 using namespace std;
 
@@ -10,10 +10,10 @@ const char SCISSORS = 's';
 
 using namespace std;
 
-char getComputerOption();
-char getUserOption();
-void showSelectedOption(char option);
-void chooseWinner(char uChoice, char cChoice);
+char getComputerOption(); // computer option
+char getUserOption(); // user option
+void showSelectedOption(char option); // show the selected options
+void chooseWinner(char uChoice, char cChoice); // choose winner between user or computer (or a tie)
 
 int main()
 {
@@ -50,14 +50,14 @@ char getComputerOption()
 
 char getUserOption()
 {
-    char input;
+    char input; // have user input r, p, or s
     cout << "Rock, Paper and Scissors Game!" << endl;
     cout << "Choose one of the following options" << endl;
     cout << "-----------------------------------" << endl;
     cout << "(r) for rock " << endl << "(p) for paper" << endl << "(s) for scissors " << endl;
     cin >> input;
 
-    while (input != 'r' && input != 'p' && input != 's')
+    while (input != 'r' && input != 'p' && input != 's') // while loop if user inputted an invalid response
     {
         cout << "Please enter one of the following options only. " << endl;
         cout << "(r) for rock " << endl << "(p) for paper" << endl << "(s) for scissors " << endl;
@@ -67,7 +67,7 @@ char getUserOption()
     return input;
 }
 
-void showSelectedOption(char option)
+void showSelectedOption(char option) // show the options chosen
 {
     if (option == 'r') cout << "Rock" << endl;
     if (option == 'p') cout << "Paper" << endl;
