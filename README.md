@@ -1,3 +1,3 @@
 # Portfolio
 Coding Portfolio
-Contains what I have learned through CG Spectrum, coding apps, books, and online video guides.
+Contains what I have learned (and continue to) through CG Spectrum, coding apps, books, and online video guides.
