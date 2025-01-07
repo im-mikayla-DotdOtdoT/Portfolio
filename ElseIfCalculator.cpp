@@ -8,7 +8,7 @@
 
 int main()
 {
-	std::cout << "**Calculator** << endl;
+	std::cout << "**Calculator** << std::endl;
     float num1, num2;
 	char operation;
 	std::cout << "Calculator" << std::endl;
