@@ -7,22 +7,20 @@ int main()
 	cout << "Enter a 4 digit PIN: "; // prompt user for input
 	cin >> pin; // take input
 
-	if(pin == userPin) // if input is correct
-	{
-		cout << "Access Granted" << endl;
-	}
-	else
-	{
-		while (pin != userPin && errorCounter < 3) // if input is incorrect (3 attempts)
+	do {
+		if (pin != userPin) // if user input is incorrect
 		{
-			cout << "Access Denied" << endl;
 			errorCounter++; // increment error counter
-			cout << "Enter a 4 digit PIN: ";
-			cin >> pin;
+			cout << "Incorrect PIN. You have " << 3 - errorCounter << " attempts left." << endl; // print error message
+			cin >> pin; // take input
 		}
-		if (pin == userPin)
-		{
-			cout << "Access Granted" << endl;
-		}
+	} while (pin != userPin && errorCounter < 3); // loop until user input is correct or error counter is 3
+	if (pin == userPin) // if user input is correct
+	{
+		cout << "Access granted." << endl; // print success message
+	}
+	else // if user input is incorrect
+	{
+		cout << "Access denied. Blocked for 24 hours." << endl; // print error message
 	}
 }
