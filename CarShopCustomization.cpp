@@ -1,13 +1,14 @@
-// Welcome message
-// have user input name
-// user has $10,000 to spend on car parts
-// first select item to buy
-// allow user to view car
-// allow user to drive car ONLY if car is full customized
-// engine, tire, body, transmission, and brakes
-// 3 different parts for each
-// user can not overspend
-// loop menu
+// welcome message
+// player class
+// car class
+// car part choice functions
+// each function takes in a set of parameters
+// the car and player classes are passed by reference
+// loops are used to display choices and get user input
+// switch statement is used to execute user choice
+// do while loop is used to allow user to exit back to main menu
+// able to view car after selecting parts
+// able to drive car
 
 #include <iostream>
 #include <string>
@@ -15,11 +16,28 @@
 using namespace std;
 
 // global variables
-int initialBudget = 10000;
-int amountSpent = 0;
-int amountLeft = initialBudget - amountSpent;
 int partChoice = 0;
 
+// Player class
+class Player
+{
+public:
+	string name; // player name
+	int initialBudget = 10000; // initial player budget
+	int amountSpent = 0; // amount spent
+	int amountLeft = initialBudget - amountSpent; // amount left
+
+	void updateBudget(int cost)
+	{
+		amountSpent += cost; // update budeget based on amount spent
+		amountLeft = initialBudget - amountSpent; // calculate amount left
+	}
+
+	void printBudget()
+	{
+		cout << "Your remaining budget is $" << amountLeft << endl; // print amount left
+	}
+};
 // Car class
 class Car
 {
@@ -37,239 +55,140 @@ public: // names for each part (uses strings)
 	bool brakesPurchased = false;
 };
 
-void engineChoice(Car& car) // allows user to select engine (reference car class)
+void engineChoice(Car& car, Player& player, string partName, string choices[], int prices[], int numChoices)
 {
-	if (car.enginePurchased) // if engine is already purchased
-	{
+	if (car.enginePurchased) { // if already purchased
 		cout << "You have already purchased an engine. Please select a different part." << endl;
 		return;
 	}
 	system("cls");
-	cout << "Choose an Engine: " << endl;
+	cout << "Choose a " << partName << ": " << endl;
 	cout << "---------------------" << endl;
-	// 3 different engines & prices
-	cout << "1.) Howler 2.0 - $2,800\n";
-	cout << "2.) Windstream - $2,440\n";
-	cout << "3.) Dragon Cry - $2,700\n";
+	for (int i = 0; i < numChoices; i++) // display choices
+	{
+		cout << (i + 1) << ".) " << choices[i] << " - $" << prices[i] << endl;
+	}
 	cin >> partChoice;
-	if (partChoice == 1)
+	if (partChoice > 0 && partChoice <= numChoices)
 	{
-		cout << "You have selected Howler 2.0." << endl;
-		car.engine = "Howler 2.0"; // set engine to Howler 2.0
+		cout << "You have selected " << choices[partChoice - 1] << "." << endl;
+		car.engine = choices[partChoice - 1]; // set engine to selected choice
 		car.enginePurchased = true; // set engine purchased to true
-		amountSpent = 2800; // set amount spent
-		amountLeft = initialBudget - amountSpent;
-		initialBudget = amountLeft; // set initial budget to amount left
-		cout << "Your remaining budget is $" << amountLeft << endl;
+		player.updateBudget(prices[partChoice - 1]); // update player's budget
+		player.printBudget(); // print player's remaining budget
 	}
-	else if (partChoice == 2)
+	else
 	{
-		cout << "You have selected Windstream" << endl;
-		car.engine = "Windstream"; // set engine to Windstream
-		car.enginePurchased = true; // set engine purchased to true
-		amountSpent = 2440; // set amount spent
-		amountLeft = initialBudget - amountSpent;
-		initialBudget = amountLeft; // set initial budget to amount left
-		cout << "Your remaining budget is $" << amountLeft << endl;
-	}
-	else if (partChoice == 3)
-	{
-		cout << "You have selected Dragon Cry" << endl;
-		car.engine = "Dragon Cry"; // set engine to Dragon Cry
-		car.enginePurchased = true; // set engine purchased to true
-		amountSpent = 2100; // set amount spent
-		amountLeft = initialBudget - amountSpent; 
-		initialBudget = amountLeft; // set initial budget to amount left
-		cout << "Your remaining budget is $" << amountLeft << endl;
+		cout << "Invalid choice. Please try again." << endl;
 	}
 }
 
-void tireChoice(Car& car) // allows user to select tires
+void tireChoice(Car& car, Player& player, string partName, string choices[], int prices[], int numChoices)
 {
-	if (car.tirePurchased) // if tires are already purchased
-	{
+	if (car.tirePurchased) { // if already purchased
 		cout << "You have already purchased tires. Please select a different part." << endl;
 		return;
 	}
 	system("cls");
-	// 3 different tires & prices for one tire (multplied by 4 when purchased)
-	cout << "Choose a pair of 4 tires: " << endl;
+	cout << "Choose a " << partName << ": " << endl;
 	cout << "---------------------" << endl;
-	cout << "1.) Skaters 0.8 - $55\n";
-	cout << "2.) Byebye V2 - $60\n";
-	cout << "3.) Night n Day - $50\n";
+	for (int i = 0; i < numChoices; i++) // display choices
+	{
+		cout << (i + 1) << ".) " << choices[i] << " - $" << prices[i] << endl;
+	}
 	cin >> partChoice;
-	if (partChoice == 1)
-	{
-		cout << "You have selected 4 Skaters 0.8" << endl;
-		car.tire = "Skaters 0.8";
-		car.tirePurchased = true; // set tire purchased to true
-		amountSpent = 220; // set amount spent (55 * 4)
-		amountLeft = initialBudget - amountSpent;
-		initialBudget = amountLeft; // set initial budget to amount left
-		cout << "Your remaining budget is $" << amountLeft << endl;
+	if (partChoice > 0 && partChoice <= numChoices) {
+		cout << "You have selected " << choices[partChoice - 1] << "." << endl;
+		car.tire = choices[partChoice - 1]; // set engine to selected choice
+		car.tirePurchased = true; // set engine purchased to true
+		player.updateBudget(prices[partChoice - 1]); // update player's budget
+		player.printBudget(); // print player's remaining budget
 	}
-	else if (partChoice == 2)
+	else
 	{
-		cout << "You have selected 4 Byebye V2" << endl;
-		car.tire = "Byebye V2";
-		car.tirePurchased = true;
-		amountSpent = 240; // set amount spent (60 * 4)
-		amountLeft = initialBudget - amountSpent; 
-		initialBudget = amountLeft; // set initial budget to amount left
-		cout << "Your remaining budget is $" << amountLeft << endl;
-	}
-	else if (partChoice == 3)
-	{
-		cout << "You have selected 4 Night n Day" << endl;
-		car.tire = "Night n Day"; // set tire to Night n Day
-		car.tirePurchased = true; // set tire purchased to true
-		amountSpent = 200; // set amount spent (50 * 4)
-		amountLeft = initialBudget - amountSpent;
-		initialBudget = amountLeft; // set initial budget to amount left
-		cout << "Your remaining budget is $" << amountLeft << endl;
+		cout << "Invalid choice. Please try again." << endl;
 	}
 }
 
-void bodyChoice(Car& car) // allows user to select body
+void bodyChoice(Car& car, Player& player, string partName, string choices[], int prices[], int numChoices) // allows user to select body
 {
-	if (car.bodyPurchased) // if body is already purchased
-	{
+	if (car.bodyPurchased) { // if already purchased
 		cout << "You have already purchased a body. Please select a different part." << endl;
 		return;
 	}
 	system("cls");
-	// 3 different bodies
-	cout << "Choose a Body: " << endl;
+	cout << "Choose a " << partName << ": " << endl;
 	cout << "---------------------" << endl;
-	cout << "1.) Burgundy Blood - $2,800\n";
-	cout << "2.) Silver and Gold - $2,200\n";
-	cout << "3.) Pink Lemonade - $2,500\n";
+	for (int i = 0; i < numChoices; i++) // for loop to display choices
+	{
+		cout << (i + 1) << ".) " << choices[i] << " - $" << prices[i] << endl;
+	}
 	cin >> partChoice;
-	if (partChoice == 1)
+	if (partChoice > 0 && partChoice <= numChoices)
 	{
-		cout << "You have selected Midnight Purple" << endl;
-		car.body = "Burgundy Blood"; // set body to Burgundy Blood
-		car.bodyPurchased = true; // set body purchased to true
-		amountSpent = 2800; // set amount spent
-		amountLeft = initialBudget - amountSpent;
-		initialBudget = amountLeft; // set initial budget to amount left
-		cout << "Your remaining budget is $" << amountLeft << endl;
+		cout << "You have selected " << choices[partChoice - 1] << "." << endl;
+		car.body = choices[partChoice - 1]; // set engine to selected choice
+		car.bodyPurchased = true; // set engine purchased to true
+		player.updateBudget(prices[partChoice - 1]); // update player's budget
+		player.printBudget(); // print player's remaining budget
 	}
-	else if (partChoice == 2)
+	else
 	{
-		cout << "You have selected Silver and Gold" << endl;
-		car.body = "Silver and Gold"; // set body to Silver and Gold
-		car.bodyPurchased = true; // set body purchased to true
-		amountSpent = 2200; // set amount spent
-		amountLeft = initialBudget - amountSpent;
-		initialBudget = amountLeft; // set initial budget to amount left
-		cout << "Your remaining budget is $" << amountLeft << endl;
-	}
-	else if (partChoice == 3)
-	{
-		cout << "You have selected Pink Lemonade" << endl;
-		car.body = "Pink Lemonade"; // set body to Pink Lemonade
-		car.bodyPurchased = true; // set body purchased to true
-		amountSpent = 2500; // set amount spent
-		amountLeft = initialBudget - amountSpent;
-		initialBudget = amountLeft; // set initial budget to amount left
-		cout << "Your remaining budget is $" << amountLeft << endl;
+		cout << "Invalid choice. Please try again." << endl;
 	}
 }
 
-void transmissionChoice(Car& car) // allows user to select transmission
+void transmissionChoice(Car& car, Player& player, string partName, string choices[], int prices[], int numChoices) // allows user to select body
 {
-	if (car.transmissionPurchased) // if transmission is already purchased
-	{
+	if (car.transmissionPurchased) { // if engine is already purchased
 		cout << "You have already purchased a transmission. Please select a different part." << endl;
 		return;
 	}
 	system("cls");
-	// 3 different transmissions
-	cout << "Choose a Transmission: " << endl;
+	cout << "Choose a " << partName << ": " << endl;
 	cout << "---------------------" << endl;
-	cout << "1.) Gears 5 - $500\n";
-	cout << "2.) Gears 6 - $600\n";
-	cout << "3.) Gears 7 - $700\n";
+	for (int i = 0; i < numChoices; i++) // display choices
+	{
+		cout << (i + 1) << ".) " << choices[i] << " - $" << prices[i] << endl;
+	}
 	cin >> partChoice;
-	if (partChoice == 1)
-	{
-		cout << "You have selected Gears 5" << endl;
-		car.transmission = "Gears 5"; // set transmission to Gears 5
-		car.transmissionPurchased = true; // set transmission purchased to true
-		amountSpent = 500; // set amount spent
-		amountLeft = initialBudget - amountSpent;
-		initialBudget = amountLeft; // set initial budget to amount left
-		cout << "Your remaining budget is $" << amountLeft << endl;
+	if (partChoice > 0 && partChoice <= numChoices) {
+		cout << "You have selected " << choices[partChoice - 1] << "." << endl;
+		car.transmission = choices[partChoice - 1]; // set engine to selected choice
+		car.transmissionPurchased = true; // set engine purchased to true
+		player.updateBudget(prices[partChoice - 1]); // update player's budget
+		player.printBudget(); // print player's remaining budget
 	}
-	else if (partChoice == 2)
+	else
 	{
-		cout << "You have selected Gears 6" << endl;
-		car.transmission = "Gears 6"; // set transmission to Gears 6
-		car.transmissionPurchased = true; // set transmission purchased to true
-		amountSpent = 600; // set amount spent
-		amountLeft = initialBudget - amountSpent;
-		initialBudget = amountLeft; // set initial budget to amount left
-		cout << "Your remaining budget is $" << amountLeft << endl;
-	}
-	else if (partChoice == 3)
-	{
-		cout << "You have selected Gears 7" << endl;
-		car.transmission = "Gears 7"; // set transmission to Gears 7
-		car.transmissionPurchased = true; // set transmission purchased to true
-		amountSpent = 700; // set amount spent
-		amountLeft = initialBudget - amountSpent;
-		initialBudget = amountLeft; // set initial budget to amount left
-		cout << "Your remaining budget is $" << amountLeft << endl;
+		cout << "Invalid choice. Please try again." << endl;
 	}
 }
 
-void brakesChoice(Car& car) // allows user to select brakes
+void brakesChoice(Car& car, Player& player, string partName, string choices[], int prices[], int numChoices) // allows user to select brakes
 {
-	if (car.brakesPurchased) // if brakes are already purchased
-	{
+	if (car.brakesPurchased) { // if engine is already purchased
 		cout << "You have already purchased brakes. Please select a different part." << endl;
 		return;
 	}
 	system("cls");
-	// 3 different brakes
-	cout << "Choose a pair of Brakes: " << endl;
+	cout << "Choose a " << partName << ": " << endl;
 	cout << "---------------------" << endl;
-	cout <<	"1.) Quick Stop 1.0 - $260\n";
-	cout << "2.) Steady Stop - $240\n";
-	cout << "3.) Defense Stop - $220\n";
+	for (int i = 0; i < numChoices; i++) // display choices
+	{
+		cout << (i + 1) << ".) " << choices[i] << " - $" << prices[i] << endl;
+	}
 	cin >> partChoice;
-	char exit;
-	if (partChoice == 1)
-	{
-		cout << "You have selected Quick Stop 1.0" << endl;
-		car.brakes = "Quick Stop 1.0"; // set brakes to Quick Stop 1.0
-		car.brakesPurchased = true; // set brakes purchased to true
-		amountSpent = 260; // set amount spent
-		amountLeft = initialBudget - amountSpent;
-		initialBudget = amountLeft; // set initial budget to amount left
-		cout << "Your remaining budget is $" << amountLeft << endl;
+	if (partChoice > 0 && partChoice <= numChoices) {
+		cout << "You have selected " << choices[partChoice - 1] << "." << endl;
+		car.brakes = choices[partChoice - 1]; // set engine to selected choice
+		car.brakesPurchased = true; // set engine purchased to true
+		player.updateBudget(prices[partChoice - 1]); // update player's budget
+		player.printBudget(); // print player's remaining budget
 	}
-	else if (partChoice == 2)
+	else
 	{
-		cout << "You have selected Steady Stop" << endl;
-		car.brakes = "Steady Stop"; // set brakes to Steady Stop
-		car.brakesPurchased = true; // set brakes purchased to true
-		amountSpent = 240; // set amount spent
-		amountLeft = initialBudget - amountSpent;
-		initialBudget = amountLeft; // set initial budget to amount left
-		cout << "Your remaining budget is $" << amountLeft << endl;
-	}
-	else if (partChoice == 3)
-	{
-		cout << "You have selected Defense Stop" << endl;
-		car.brakes = "Defense Stop"; // set brakes to Defense Stop
-		car.brakesPurchased = true; // set brakes purchased to true
-		amountSpent = 220; // set amount spent
-		amountLeft = initialBudget - amountSpent;
-		initialBudget = amountLeft; // set initial budget to amount left
-		cout << "Your remaining budget is $" << amountLeft << endl;
+		cout << "Invalid choice. Please try again." << endl;
 	}
 }
 
@@ -299,17 +218,19 @@ void driveCar(Car& car)
 int main()
 {
 	Car car; // car class
+	Player player; // player class
 	int partChoice = 0; // car part selection
 	char exit; // allows user to exit back to main menu
 	char canDrive; // allows user to drive car	
 
-	string name; // user name
+	string playerName; // user name
 	int shopChoice = 0; // menu selection
 	cout << "Welcome to the Car Shop Customization Program!\n";
 	cout << "Please enter your name: ";
-	cin >> name;
+	cin >> playerName; // get user name
 	cout << endl;
-	cout << "Hello, " << name << "! You have $10,000 to spend on your car parts.\nYou may only choose 1 engine, 4 tires, 1 body, 1 transmission, and 1 set of brakes.\nEnter a number to select a part:\n";
+	cout << "Hello, " << playerName << "! You have $10,000 to spend on your car parts.\nYou may only choose 1 engine, 4 tires, 1 body, 1 transmission, and 1 set of brakes.\nEnter a number to select a part:\n";
+	player.name = playerName;
 
 	do {
 		// menu selection
@@ -325,50 +246,70 @@ int main()
 		switch (shopChoice) // switch statement for car part selection
 		{
 		case 1:
-			{
-			engineChoice(car);
+		{
+			string partName = "Engine"; // part name
+			string choices[] = { "Howler 2.0", "Windstream", "Dragon's Cry" }; // part choices
+			int prices[] = { 2800, 2440, 2700 }; // part prices
+			int numChoices = 3; // number of choices
+			engineChoice(car, player, partName, choices, prices, numChoices); // call engineChoice function
 			cout << "Press X to continue: ";
 			cin >> exit;
 			break;
-			}
+		}
 		case 2:
-			{
-			tireChoice(car);
+		{
+			string partName = "Tire. NOTE: You will purchase 4 tires of the same brand automatically."; // part name
+			string choices[] = { "Skaters 0.8", "Byebye V2", "Night n Day" }; // part choices
+			int prices[] = {55, 60, 50}; //	part prices
+			int numChoices = 3; // number of choices
+			tireChoice(car, player, partName, choices, prices, numChoices); // call tireChoice function
 			cout << "Press X to continue: ";
 			cin >> exit;
 			break;
-			}
+		}
 		case 3:
-			{
-			bodyChoice(car);
+		{
+			string partName = "Body"; // part name
+			string choices[] = { "Burgundy Blood", "Silver and Gold", "Pink Lemonade" }; // part choices
+			int prices[] = { 2800, 2200, 2500 }; // part prices
+			int numChoices = 3; // number of choices
+			bodyChoice(car, player, partName, choices, prices, numChoices); // call bodyChoice function
 			cout << "Press X to continue: ";
 			cin >> exit;
 			break;
-			}
+		}
 		case 4:
-			{
-			transmissionChoice(car);
+		{
+			string partName = "Transmission"; // part name
+			string choices[] = { "Gears 5", "Gears 6", "Gears 7" }; // part choices
+			int prices[] = { 500, 600, 700 }; // part prices
+			int numChoices = 3; // number of choices
+			transmissionChoice(car, player, partName, choices, prices, numChoices); // call transmissionChoice function
 			cout << "Press X to continue: ";
 			cin >> exit;
 			break;
-			}
+		}
 		case 5:
-			{
-			brakesChoice(car);
+		{
+			string partName = "Brakes"; // part name
+			string choices[] = { "Quick Stop 1.0", "Steady Stop", "Defense Stop" }; // part choices
+			int prices[] = { 260, 240, 220 }; // part prices
+			int numChoices = 3; // number of choices
+			brakesChoice(car, player, partName, choices, prices, numChoices); // call brakesChoice function
 			cout << "Press X to continue: ";
 			cin >> exit;
 			break;
-			}
+		}
 		case 6:
-			{
+		{
 			cout << "View Car" << endl;
-			viewCar(car);
+			viewCar(car); // view car
 			cout << "Press X to continue: ";
 			cin >> exit;
 			break;
-			}
+		}
 		case 7:
-			{
+		{
 			driveCar(car);
 			cout << "Would you like to drive your car? (y/n): "; // ask user if they would like to drive their car
 			cin >> canDrive; // user input
@@ -382,12 +323,12 @@ int main()
 				cout << "You have not driven your car." << endl;
 			}
 			break;
-			}
+		}
 		default:
-			{
+		{
 			cout << "Invalid choice" << endl;
 			break;
-			}
+		}
 		}
 	} while (exit == 'x' || exit == 'X'); // loop menu
 	if (exit != 'x' && exit != 'X') // if user input is not x
