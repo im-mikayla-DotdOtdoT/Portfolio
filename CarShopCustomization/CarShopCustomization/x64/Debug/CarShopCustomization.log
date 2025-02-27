@@ -1,0 +1,6 @@
+﻿  CarShopCustomization.cpp
+C:\Users\mpenn\coding portfolio\CarShopCustomization\CarShopCustomization\CarShopCustomization.cpp(48,7): warning C4101: 'canDrive': unreferenced local variable
+  garage.cpp
+C:\Users\mpenn\coding portfolio\CarShopCustomization\CarShopCustomization\garage.cpp(14,21): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+  Generating Code...
+  CarShopCustomization.vcxproj -> C:\Users\mpenn\coding portfolio\CarShopCustomization\x64\Debug\CarShopCustomization.exe
